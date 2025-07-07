@@ -141,7 +141,7 @@ def prepare_data(path_data):
     X = df.drop(columns=['price'])
     y = np.log(df['price'])
 
-    return {'text':X,
-            'label':y
-            }
-    #return X, y
+    # return {'text':X,
+    #         'label':y
+    #         }
+    return X, y
