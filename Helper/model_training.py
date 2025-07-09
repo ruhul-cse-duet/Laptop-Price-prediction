@@ -239,7 +239,7 @@ def XGBRegressor_model(X_train,X_test,y_train,y_test):
         max_delta_step=2,
         eval_metric="rmse",
         enable_categorical=True,
-        device='cuda'
+        device='cpu'
     )
 
     pipe = Pipeline([

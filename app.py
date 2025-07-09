@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import numpy as np
 import pandas as pd
+import torch
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -38,10 +39,11 @@ weight = st.number_input('Weight (Kg)', min_value=0.5, max_value=5.0, value=2.0,
 currency = st.selectbox("Select Currency", ["INR", "USD", "EUR", "BDT"])
 
 # Editable exchange rate section
-st.markdown("### Set Exchange Rates (per 1 USD) if you want or just ignore.")
-inr_rate = st.number_input("INR Rate", min_value=0.0001, value=85.72, step=0.0001, format="%.4f")
-eur_rate = st.number_input("EUR Rate", min_value=0.0001, value=0.85, step=0.0001, format="%.4f")
-bdt_rate = st.number_input("BDT Rate", min_value=0.01, value=121.93, step=0.01, format="%.2f")
+st.markdown("### Set Exchange Rates (per 1 INR) if you want or just ignore. Model Trained with INR price")
+usd_rate = st.number_input("USD Rate", min_value=0.0001, value=0.0120, step=0.0001, format="%.4f")
+eur_rate = st.number_input("EUR Rate", min_value=0.0001, value=0.0110, step=0.0001, format="%.4f")
+bdt_rate = st.number_input("BDT Rate", min_value=0.01, value=1.29, step=0.01, format="%.2f")
+
 
 # Predict button
 if st.button('Predict Laptop Price'):
@@ -63,23 +65,23 @@ if st.button('Predict Laptop Price'):
 
     query_df = pd.DataFrame([input_dict])
     predicted_log_price = pipe.predict(query_df)[0]
-    predicted_price_USD = np.exp(predicted_log_price)
+    predicted_price_inr = np.exp(predicted_log_price)
 
     # Currency conversion
     if currency == "INR":
-        price_inr = predicted_price_USD * inr_rate
-        st.success(f"The predicted price of this configuration is {price_inr:,.2f} INR")
+        st.success(f"The predicted price of this configuration is {predicted_price_inr:,.2f} INR")
     elif currency == "USD":
-        st.success(f"The predicted price of this configuration is {predicted_price_USD:,.2f} USD")
+        price_usd = predicted_price_inr * usd_rate
+        st.success(f"The predicted price of this configuration is ${price_usd:,.2f} USD")
     elif currency == "EUR":
-        price_eur = predicted_price_USD * eur_rate
+        price_eur = predicted_price_inr * eur_rate
         st.success(f"The predicted price of this configuration is {price_eur:,.2f} EUR")
     elif currency == "BDT":
-        price_bdt = predicted_price_USD * bdt_rate
+        price_bdt = predicted_price_inr * bdt_rate
         st.success(f"The predicted price of this configuration is {price_bdt:,.2f} BDT")
 
     # To display the rates used
     st.markdown("#### Exchange Rates Used:")
-    st.info(f"- 1 USD = {inr_rate:.4f} INR\n"
-            f"- 1 USD = {eur_rate:.4f} EUR\n"
-            f"- 1 USD = {bdt_rate:.2f} BDT")
+    st.info(f"- 1 INR = {usd_rate:.4f} USD\n"
+            f"- 1 INR = {eur_rate:.4f} EUR\n"
+            f"- 1 INR = {bdt_rate:.2f} BDT")
