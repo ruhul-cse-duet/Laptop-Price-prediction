@@ -1,14 +1,9 @@
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split, RandomizedSearchCV, GridSearchCV, KFold, cross_val_score
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler, MinMaxScaler , LabelEncoder
-from sklearn.pipeline import Pipeline
-# from scipy.sparse import csr_matrix, issparse
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import warnings
 warnings.filterwarnings('ignore')
+import pickle
+
 
 
 def prepare_data(path_data):
@@ -140,6 +135,8 @@ def prepare_data(path_data):
     df = df[
         ['company', 'type', 'screen_size', 'screen_resolution', 'ips', 'cpu', 'ram', 'ssd', 'hdd', 'gpu', 'touchscreen',
          'os', 'weight', 'price']]
+
+    pickle.dump(df, open('df.pkl', 'wb'))
 
     X = df.drop(columns=['price'])
     y = np.log(df['price'])

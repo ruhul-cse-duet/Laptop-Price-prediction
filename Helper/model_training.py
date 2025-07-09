@@ -11,12 +11,12 @@ from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
 from catboost import CatBoostRegressor
 from sklearn.metrics import classification_report, mean_squared_error, mean_absolute_error, r2_score
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import OneHotEncoder, StandardScaler, MinMaxScaler , LabelEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 import torch
 import numpy as np
-
+import  pickle
 
 
 ## Creating a function to evaluat model........................................
@@ -250,7 +250,10 @@ def XGBRegressor_model(X_train,X_test,y_train,y_test):
     sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
     print('Score : {:.2f}'.format(sc * 100.0), "%")
-    return y_pred
+
+    #pickle.dump(pipe,open('pipe.pkl','wb'))
+    return {'prediction': y_pred, 'model': pipe}
+    #return y_pred, pipe
 
 
 #......................................................................................................
@@ -320,13 +323,11 @@ def RandomForest_model(X_train,X_test,y_train,y_test):
     ], remainder='passthrough')
 
     step_2 = RandomForestRegressor(
-        n_estimators=300,
-        max_depth=10,
-        min_samples_split=5,
-        min_samples_leaf=2,
-        max_features='sqrt',
-        random_state=42,
-        n_jobs=-1
+        n_estimators=100,
+        random_state=3,
+        max_samples=0.5,
+        max_features=0.75,
+        max_depth=15
     )
     pipe = Pipeline([
         ('step_1', step_1),
