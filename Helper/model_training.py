@@ -239,13 +239,19 @@ def XGBRegressor_model(X_train,X_test,y_train,y_test):
         max_delta_step=2,
         eval_metric="rmse",
         enable_categorical=True,
-        device='cpu'
+        #device='cuda',
+        tree_method = 'hist',
+        #predictor = 'gpu_predictor'
     )
 
     pipe = Pipeline([
         ('step_1', step_1),
         ('step_2', step_2),
     ])
+
+    X_train = X_train.astype('float32')
+    y_train = y_train.astype('float32')
+
     pipe.fit(X_train, y_train)
     sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
