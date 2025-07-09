@@ -1,7 +1,6 @@
 
 from sklearn.linear_model import LinearRegression,Ridge,Lasso,ElasticNet
 from sklearn.neighbors import KNeighborsRegressor
-
 from sklearn.svm import SVR
 
 from sklearn.tree import DecisionTreeRegressor
@@ -15,11 +14,27 @@ from sklearn.metrics import classification_report, mean_squared_error, mean_abso
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+import torch
+import numpy as np
 
 
-## Model training.....................Function.............................
-#"Linear_Regression":LinearRegression(),
 
+## Creating a function to evaluat model........................................
+def evaluation(true, predicted):
+    mae = mean_absolute_error(true, predicted)
+    me = mean_squared_error(true, predicted)
+    mse = np.sqrt(me)
+    r2 = r2_score(true, predicted)
+    r = np.corrcoef(true, predicted)[0,1]
+
+    print(f"Pearson Correlation Coefficient: {r}")
+    print("R2 Score:{:.4f}".format(r2))
+    print("MAE:{:.4f}".format(mae))
+    print("MSE:{:.4f}".format(mse))
+
+
+
+## Model training.....................Function.......................................................
 def linear_reg(X_train,X_test,y_train,y_test):
     step_1 = ColumnTransformer(transformers=[
         ('col_tnf', OneHotEncoder(sparse_output=False, drop='first', handle_unknown='ignore'),[0,1,3,4,5,9,10,11]),
@@ -36,14 +51,13 @@ def linear_reg(X_train,X_test,y_train,y_test):
         ('step_2', step_2),
     ])
     pipe.fit(X_train,y_train)
-    #pipe.score(X_test,y_test)
+    sc = pipe.score(X_test,y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 
-#.............////////////....................................................................//////////
+
+#.................................................................................//////////
 def Lasso_reg(X_train,X_test,y_train,y_test):
     step_1 = ColumnTransformer(transformers=[
         ('col_tnf', OneHotEncoder(sparse_output=False, drop='first', handle_unknown='ignore'),
@@ -67,11 +81,10 @@ def Lasso_reg(X_train,X_test,y_train,y_test):
         ('step_2', step_2),
     ])
     pipe.fit(X_train, y_train)
+    sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 
 #................................................./////////////////////...........................................
 def Ridge_reg(X_train,X_test,y_train,y_test):
@@ -94,11 +107,10 @@ def Ridge_reg(X_train,X_test,y_train,y_test):
         ('step_2', step_2),
     ])
     pipe.fit(X_train, y_train)
+    sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 
 
 def ElasticNet_model(X_train,X_test,y_train,y_test):
@@ -124,13 +136,13 @@ def ElasticNet_model(X_train,X_test,y_train,y_test):
         ('step_2', step_2),
     ])
     pipe.fit(X_train, y_train)
+    sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 
 
+#...................................................................................................................
 def DecisionTreeRegressor_model(X_train,X_test,y_train,y_test):
     step_1 = ColumnTransformer(transformers=[
         ('col_tnf', OneHotEncoder(sparse_output=False, drop='first', handle_unknown='ignore'),
@@ -150,53 +162,67 @@ def DecisionTreeRegressor_model(X_train,X_test,y_train,y_test):
         ('step_2', step_2),
     ])
     pipe.fit(X_train, y_train)
+    sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 
 
-
+#..........................................................................................................
 def AdaBoostRegressor_model(X_train,X_test,y_train,y_test):
     step_1 = ColumnTransformer(transformers=[
         ('col_tnf', OneHotEncoder(sparse_output=False, drop='first', handle_unknown='ignore'),
          [0, 1, 3, 4, 5, 9, 10, 11]),
     ], remainder='passthrough')
-    step_2 = AdaBoostRegressor()
+    step_2 = AdaBoostRegressor(
+        n_estimators=200,
+        learning_rate=0.01,
+        loss="linear",
+        random_state=42,
+    )
 
     pipe = Pipeline([
         ('step_1', step_1),
         ('step_2', step_2),
     ])
     pipe.fit(X_train, y_train)
+    sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 
-
+#....................................................................................................
 def GradientBoost_model(X_train,X_test,y_train,y_test):
     step_1 = ColumnTransformer(transformers=[
         ('col_tnf', OneHotEncoder(sparse_output=False, drop='first', handle_unknown='ignore'),
          [0, 1, 3, 4, 5, 9, 10, 11]),
     ], remainder='passthrough')
 
-    step_2 = GradientBoostingRegressor()
+    step_2 = GradientBoostingRegressor(
+        loss="squared_error",
+        learning_rate=0.01,
+        n_estimators=200,
+        criterion="friedman_mse",
+        min_samples_split=2,
+        max_depth=7,
+        random_state=42,
+        warm_start=False,
+        validation_fraction=0.1,
+        tol=1e-4,
+    )
 
     pipe = Pipeline([
         ('step_1', step_1),
         ('step_2', step_2),
     ])
     pipe.fit(X_train, y_train)
+    sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 
 
+#....................................................................................................
 def XGBRegressor_model(X_train,X_test,y_train,y_test):
     step_1 = ColumnTransformer(transformers=[
         ('col_tnf', OneHotEncoder(sparse_output=False, drop='first', handle_unknown='ignore'),
@@ -207,8 +233,8 @@ def XGBRegressor_model(X_train,X_test,y_train,y_test):
         max_depth=10,
         colsample_bytree=0.75,
         subsample=0.9,
-        n_estimators=2000,
-        learning_rate=0.001,
+        n_estimators=1000,
+        learning_rate=0.01,
         gamma=0.01,
         max_delta_step=2,
         eval_metric="rmse",
@@ -221,13 +247,13 @@ def XGBRegressor_model(X_train,X_test,y_train,y_test):
         ('step_2', step_2),
     ])
     pipe.fit(X_train, y_train)
+    sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 
 
+#......................................................................................................
 def LGBMRegressor_model(X_train,X_test,y_train,y_test):
     step_1 = ColumnTransformer(transformers=[
         ('col_tnf', OneHotEncoder(sparse_output=False, drop='first', handle_unknown='ignore'),
@@ -251,13 +277,13 @@ def LGBMRegressor_model(X_train,X_test,y_train,y_test):
         ('step_2', step_2),
     ])
     pipe.fit(X_train, y_train)
+    sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 
 
+#..........................................................................................................
 def CatBoostRegressor_model(X_train,X_test,y_train,y_test):
     step_1 = ColumnTransformer(transformers=[
         ('col_tnf', OneHotEncoder(sparse_output=False, drop='first', handle_unknown='ignore'),
@@ -265,26 +291,28 @@ def CatBoostRegressor_model(X_train,X_test,y_train,y_test):
     ], remainder='passthrough')
 
     step_2 = CatBoostRegressor(
-        iterations=3500,
+        iterations=1000,
         depth=12,
         loss_function='RMSE',
         l2_leaf_reg=3,
         random_seed=42,
         eval_metric='RMSE',
-        silent=True
+        silent=True,
+        gpu_ram_part='cuda',
+        devices='cuda',
     )
     pipe = Pipeline([
         ('step_1', step_1),
         ('step_2', step_2),
     ])
     pipe.fit(X_train, y_train)
+    sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 
 
+#..........................................................................................................
 def RandomForest_model(X_train,X_test,y_train,y_test):
     step_1 = ColumnTransformer(transformers=[
         ('col_tnf', OneHotEncoder(sparse_output=False, drop='first', handle_unknown='ignore'),
@@ -305,9 +333,8 @@ def RandomForest_model(X_train,X_test,y_train,y_test):
         ('step_2', step_2),
     ])
     pipe.fit(X_train, y_train)
+    sc = pipe.score(X_test, y_test)
     y_pred = pipe.predict(X_test)
-    print("MAE:", mean_absolute_error(y_test, y_pred))
-    print("MSE:", mean_squared_error(y_test, y_pred))
-    print("RMSE:", mean_squared_error(y_test, y_pred, squared=False))
-    print("R² Score:", r2_score(y_test, y_pred))
+    print('Score : {:.2f}'.format(sc * 100.0), "%")
+    return y_pred
 

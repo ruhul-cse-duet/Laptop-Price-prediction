@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6c2b6a1-5128-4c98-a1a7-9b13162a22fc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Helper/model_training.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Laptop-Price-prediction.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Helper/data_preprocess.py" beforeDir="false" afterPath="$PROJECT_DIR$/Helper/data_preprocess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Helper/model_training.py" beforeDir="false" afterPath="$PROJECT_DIR$/Helper/model_training.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prediction.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/prediction.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +25,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -54,7 +55,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "configurable.group.appearance",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -104,7 +105,8 @@
       <workItem from="1751961458831" duration="2804000" />
       <workItem from="1751965112846" duration="694000" />
       <workItem from="1751976241693" duration="2835000" />
-      <workItem from="1751981008074" duration="5889000" />
+      <workItem from="1751981008074" duration="9091000" />
+      <workItem from="1752039637085" duration="7980000" />
     </task>
     <servers />
   </component>
@@ -112,8 +114,8 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Laptop_Price_prediction$ploting_data.coverage" NAME="ploting_data Coverage Results" MODIFIED="1751965450120" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Helper" />
-    <SUITE FILE_PATH="coverage/Laptop_Price_prediction$data_preprocess.coverage" NAME="data_preprocess Coverage Results" MODIFIED="1751965466426" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Helper" />
-    <SUITE FILE_PATH="coverage/Laptop_Price_prediction$model_training.coverage" NAME="model_training Coverage Results" MODIFIED="1751986784309" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Helper" />
+    <SUITE FILE_PATH="coverage/Laptop_Price_prediction$ploting_data.coverage" NAME="ploting_data Coverage Results" MODIFIED="1752046782363" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Helper" />
+    <SUITE FILE_PATH="coverage/Laptop_Price_prediction$data_preprocess.coverage" NAME="data_preprocess Coverage Results" MODIFIED="1752048297713" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Helper" />
+    <SUITE FILE_PATH="coverage/Laptop_Price_prediction$model_training.coverage" NAME="model_training Coverage Results" MODIFIED="1752048720936" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Helper" />
   </component>
 </project>

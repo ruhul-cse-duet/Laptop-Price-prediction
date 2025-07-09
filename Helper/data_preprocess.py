@@ -4,8 +4,11 @@ from sklearn.model_selection import train_test_split, RandomizedSearchCV, GridSe
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler, MinMaxScaler , LabelEncoder
 from sklearn.pipeline import Pipeline
+# from scipy.sparse import csr_matrix, issparse
 import pandas as pd 
 import numpy as np
+import warnings
+warnings.filterwarnings('ignore')
 
 
 def prepare_data(path_data):
@@ -48,7 +51,7 @@ def prepare_data(path_data):
 
     df.drop(columns=['Cpu Name','Cpu'], inplace=True)
 
-    # Convert to string and remove .0.....................................................
+    # Convert to string and remove .0....................................................................
     df['Memory'] = df['Memory'].astype(str).replace('\.0', '', regex=True)
 
     # Normalize units
